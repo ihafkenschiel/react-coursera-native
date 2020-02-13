@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
-import { ScrollView, Text } from 'react-native';
-import { Card } from 'react-native-elements';
+import { ScrollView, Text, FlatList } from 'react-native';
+import { Card, ListItem } from 'react-native-elements';
+import { LEADERS } from '../shared/leaders';
 
 
 function History() {
@@ -13,12 +14,50 @@ function History() {
   );
 }
 
+function CorporateLeadership(props) {
+
+  const renderLeaders = ({item, index}) => {
+    return(
+      <ListItem
+          key={index}
+          title={item.name}
+          subtitle={item.description}
+          hideChevron={true}
+          leftAvatar={{ source: require('./images/alberto.png') }}
+        />
+    );
+  }
+
+  return(
+    <Card title="Corporate Leadership">
+      <FlatList
+          data={props.leaders}
+          renderItem={renderLeaders}
+          keyExtractor={ item => item.id.toString() }
+        />
+    </Card>
+  );
+}
+
 class About extends Component {
+
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      leaders: LEADERS
+    }
+  }
+
+  static navigationOptions = {
+    title: 'About Us'
+  }
 
   render() {
     return(
       <ScrollView>
         <History />
+        <CorporateLeadership leaders={this.state.leaders} />
       </ScrollView>
     );
   }
