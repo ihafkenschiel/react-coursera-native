@@ -11,16 +11,22 @@ json-server --watch db.json -d 2000 -p 3001
 
 to make the server accessible outside of localhost, add your IP address:
 ```
-json-server --watch db.json -d 2000 -p 3001 --host 192.168.0.100
+--host 192.168.0.100
 ```
 
 
-You can also have it listen on any address with --host 0.0.0.0
+You can also have it listen on any address with
 ```
-json-server --watch db.json -d 2000 -p 3001 --host 0.0.0.0
+--host 0.0.0.0
 ```
 
 Use static for static files (images)
 ```
-json-server --watch db.json --static public -d 2000 -p 3001 --host 0.0.0.0
+--static public
+```
+
+
+To run HTTPS server:
+```
+node https-json-server.js
 ```

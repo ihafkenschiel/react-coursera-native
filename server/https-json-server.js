@@ -1,6 +1,8 @@
 // https-json-server.js
 // Run with: node https-json-server.js
 
+// Generate SSL keys: openssl req -nodes -new -x509 -keyout server.key -out server.cert
+
 const jsonServer = require("json-server");
 const https = require("https");
 const path = require("path");
