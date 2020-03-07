@@ -5,11 +5,11 @@ import { connect } from 'react-redux';
 import { baseUrl } from '../shared/baseUrl';
 
 const mapStateToProps = state => {
-  return {
-    dishes: state.dishes,
-    comments: state.comments
+    return {
+      dishes: state.dishes,
+      comments: state.comments
+    }
   }
-}
 
 function RenderDish(props) {
   const dish = props.dish;

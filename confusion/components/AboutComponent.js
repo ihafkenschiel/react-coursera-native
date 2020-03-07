@@ -5,10 +5,10 @@ import { connect } from 'react-redux';
 import { baseUrl } from '../shared/baseUrl';
 
 const mapStateToProps = state => {
-  return {
-    leaders: state.leaders
+    return {
+      leaders: state.leaders
+    }
   }
-}
 
 function History() {
   return(
@@ -37,10 +37,10 @@ function CorporateLeadership(props) {
   return(
     <Card title="Corporate Leadership">
       <FlatList
-         data={this.props.leaders.leaders}
-         renderItem={renderLeader}
-         keyExtractor={item => item.id.toString()}
-       />
+        data={this.props.leaders.leaders}
+        renderItem={renderLeader}
+        keyExtractor={item => item.id.toString()}
+      />
     </Card>
   );
 }

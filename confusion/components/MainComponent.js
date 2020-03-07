@@ -24,7 +24,7 @@ const mapDispatchToProps = dispatch => ({
   fetchComments: () => dispatch(fetchComments()),
   fetchPromos: () => dispatch(fetchPromos()),
   fetchLeaders: () => dispatch(fetchLeaders()),
-});
+})
 
 const MenuNavigator = createStackNavigator({
   Menu: { screen: Menu,
@@ -182,13 +182,13 @@ const MainNavigator = createDrawerNavigator({
 
 class Main extends Component {
 
-
   componentDidMount() {
     this.props.fetchDishes();
     this.props.fetchComments();
     this.props.fetchPromos();
     this.props.fetchLeaders();
   }
+
 
   render() {
     return(
