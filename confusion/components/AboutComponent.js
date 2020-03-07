@@ -37,8 +37,8 @@ function CorporateLeadership(props) {
   return(
     <Card title="Corporate Leadership">
       <FlatList
-        data={this.props.leaders.leaders}
-        renderItem={renderLeader}
+        data={props.leaders}
+        renderItem={renderLeaders}
         keyExtractor={item => item.id.toString()}
       />
     </Card>
