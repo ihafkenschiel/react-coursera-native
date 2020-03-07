@@ -11,5 +11,8 @@
   "license": "ISC",
   "devDependencies": {
     "json-server": "^0.16.1"
+  },
+  "dependencies": {
+    "connect-pause": "^0.1.0"
   }
 }
