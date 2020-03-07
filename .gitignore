@@ -1,2 +1,2 @@
-.cert
-.key
+server/server.cert
+server/server.key
