@@ -97,13 +97,10 @@ class Reservation extends Component {
             accessibilityLabel='Learn more about this purple button'
           />
         </View>
-        <Modal
-          animationType={'slide'}
-          transparent={false}
-          visible={this.state.showModal}
-          onDismiss={() => {  this.resetForm() } }
-          onRequestClose={() => { this.toggleModal(); this.resetForm() } }
-        >
+        <Modal animationType = {"slide"} transparent = {false}
+                    visible = {this.state.showModal}
+                    //onDismiss = {() => this.toggleModal() }
+                    onRequestClose = {() => this.toggleModal() }>
           <View style={styles.modal}>
             <Text style={styles.modalTitle}>Your Reservation</Text>
             <Text style={styles.modalText}>Number of Guests: {this.state.guests}</Text>

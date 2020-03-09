@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import { View, Text, ScrollView, FlatList } from 'react-native';
-import { Card, Icon } from 'react-native-elements';
+import { View, Text, ScrollView, FlatList, Modal, StyleSheet, Button } from 'react-native';
+import { Card, Icon, Rating, Input } from 'react-native-elements';
 import { connect } from 'react-redux';
 import { baseUrl } from '../shared/baseUrl';
 import { postFavorite } from '../redux/ActionCreators';
@@ -35,7 +35,16 @@ function RenderDish(props) {
               type='font-awesome'
               color='#f50'
               onPress={() => props.favorite ? console.log('Already favorite') : props.onPress()}
-              />
+           />
+           <Icon
+               raised
+               reverse
+               containerStyle={{float: 'right'}}
+               name='pencil'
+               type='font-awesome'
+               color='#512DA8'
+               onPress={() => props.toggleCommentModal() }
+            />
       </Card>
 
     );
@@ -73,8 +82,25 @@ function RenderComments(props) {
 
 class DishDetail extends Component {
 
+  constructor(props) {
+    super(props);
+    this.state = {
+      showCommentModal: false
+    }
+
+    this.toggleCommentModal = this.toggleCommentModal.bind(this);
+  }
+
   markFavorite(dishId) {
       this.props.postFavorite(dishId);
+  }
+
+  toggleCommentModal() {
+    this.setState({ showCommentModal: !this.state.showCommentModal });
+  }
+
+  addComment() {
+
   }
 
   static navigationOptions = {
@@ -89,13 +115,92 @@ class DishDetail extends Component {
           <RenderDish dish={this.props.dishes.dishes[+dishId]}
               favorite={this.props.favorites.some(el => el === dishId)}
               onPress={() => this.markFavorite(dishId)}
+              toggleCommentModal={this.toggleCommentModal}
               />
           <RenderComments comments={this.props.comments.comments.filter((comment) => comment.dishId === dishId)} />
+          <Modal animationType = {"slide"} transparent = {false}
+                  visible = {this.state.showCommentModal}
+                  onRequestClose = {() => this.toggleModal() }>
+            <View style={styles.modal}>
+              <Rating
+                showRating
+                count={5}
+              />
+              <Input
+                placeholder='Author'
+                leftIcon={
+                  <Icon
+                    name='user'
+                    type='font-awesome'
+                    size={24}
+                    color='black'
+                    containerStyle={{margin: 10}}
+                  />
+                }
+              />
+              <Input
+                placeholder='Comment'
+                leftIcon={
+                  <Icon
+                    name='comments'
+                    type='font-awesome'
+                    size={24}
+                    color='black'
+                    containerStyle={{margin: 10}}
+                  />
+                }
+              />
+              <Button
+                onPress={() => { this.toggleCommentModal(); this.addComment() } }
+                color='#512DA8'
+                raised
+                title='Submit'
+              />
+              <Button
+                onPress={() => { this.toggleCommentModal(); } }
+                title='Cancel'
+              />
+            </View>
+          </Modal>
       </ScrollView>
     );
   }
 
 
 }
+
+const styles = StyleSheet.create({
+  formRow: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    flex: 1,
+    flexDirection: 'row',
+    margin: 20
+  },
+  formLabel: {
+    fontSize: 18,
+    flex: 2
+  },
+  formItem: {
+    flex: 1
+  },
+  modal: {
+    justifyContent: 'center',
+    margin: 20
+  },
+  modalTitle: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    backgroundColor: '#512DA8',
+    textAlign: 'center',
+    color: 'white',
+    marginBottom: 20
+  },
+  modalText: {
+    fontSize: 18,
+    margin: 10
+  }
+});
+
 
 export default connect(mapStateToProps, mapDispatchToProps)(DishDetail);
