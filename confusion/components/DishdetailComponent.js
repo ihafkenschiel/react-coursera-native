@@ -30,23 +30,25 @@ function RenderDish(props) {
           <Text style={{margin: 10}}>
               {dish.description}
           </Text>
-          <Icon
-              raised
-              reverse
-              name={ props.favorite ? 'heart' : 'heart-o'}
-              type='font-awesome'
-              color='#f50'
-              onPress={() => props.favorite ? console.log('Already favorite') : props.onPress()}
-           />
-           <Icon
-               raised
-               reverse
-               containerStyle={{float: 'right'}}
-               name='pencil'
-               type='font-awesome'
-               color='#512DA8'
-               onPress={() => props.toggleCommentModal() }
-            />
+          <View style={{flexDirection: 'row', justifyContent: 'center',}}>
+            <Icon
+                raised
+                reverse
+                name={ props.favorite ? 'heart' : 'heart-o'}
+                type='font-awesome'
+                color='#f50'
+                onPress={() => props.favorite ? console.log('Already favorite') : props.onPress()}
+             />
+             <Icon
+                 raised
+                 reverse
+                 containerStyle={{float: 'right'}}
+                 name='pencil'
+                 type='font-awesome'
+                 color='#512DA8'
+                 onPress={() => props.toggleCommentModal() }
+              />
+            </View>
       </Card>
 
     );
@@ -66,7 +68,8 @@ function RenderComments(props) {
               <Rating
                 readonly
                 ratingCount={5}
-                imageSize={20}
+                imageSize={15}
+                style={{paddingVertical: 5, flexDirection: 'row', justifyContent: 'flex-start'}}
                 startingValue={item.rating}
               />
               <Text style={{fontSize: 12}}>{'-- ' + item.author + ', ' + item.date} </Text>
