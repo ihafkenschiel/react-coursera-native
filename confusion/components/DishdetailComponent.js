@@ -4,6 +4,7 @@ import { Card, Icon, Rating, Input } from 'react-native-elements';
 import { connect } from 'react-redux';
 import { baseUrl } from '../shared/baseUrl';
 import { postFavorite } from '../redux/ActionCreators';
+import { postComment } from '../redux/ActionCreators';
 
 const mapStateToProps = state => {
   return {
@@ -14,7 +15,8 @@ const mapStateToProps = state => {
 }
 
 const mapDispatchToProps = dispatch => ({
-  postFavorite: (dishId) => dispatch(postFavorite(dishId))
+  postFavorite: (dishId) => dispatch(postFavorite(dishId)),
+  postComment: (dishId, rating, author, comment) => dispatch(postComment(dishId, rating, author, comment))
 });
 
 function RenderDish(props) {
@@ -85,10 +87,17 @@ class DishDetail extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      showCommentModal: false
+      showCommentModal: false,
+      rating: 1,
+      author: '',
+      comment: ''
     }
 
+    this.commentText = React.createRef();
+    this.authorText = React.createRef();
+
     this.toggleCommentModal = this.toggleCommentModal.bind(this);
+    this.ratingCompleted = this.ratingCompleted.bind(this);
   }
 
   markFavorite(dishId) {
@@ -99,8 +108,17 @@ class DishDetail extends Component {
     this.setState({ showCommentModal: !this.state.showCommentModal });
   }
 
-  addComment() {
+  ratingCompleted(rating) {
+    this.setState({
+      'rating': rating
+    });
+  }
 
+  handleComment() {
+    // Close modal window
+    this.toggleCommentModal();
+
+    console.log(JSON.stringify(this.state));
   }
 
   static navigationOptions = {
@@ -124,10 +142,15 @@ class DishDetail extends Component {
             <View style={styles.modal}>
               <Rating
                 showRating
-                count={5}
+                ratingCount={5}
+                style={{ paddingVertical: 10 }}
+                startingValue={this.state.rating}
+                onFinishRating={this.ratingCompleted}
               />
               <Input
                 placeholder='Author'
+                value={this.state.author}
+                onChangeText={(text) => this.setState({author: text})}
                 leftIcon={
                   <Icon
                     name='user'
@@ -140,6 +163,8 @@ class DishDetail extends Component {
               />
               <Input
                 placeholder='Comment'
+                value={this.state.comment}
+                onChangeText={(text) => this.setState({comment: text})}
                 leftIcon={
                   <Icon
                     name='comments'
@@ -151,7 +176,7 @@ class DishDetail extends Component {
                 }
               />
               <Button
-                onPress={() => { this.toggleCommentModal(); this.addComment() } }
+                onPress={() => { this.handleComment(); } }
                 color='#512DA8'
                 raised
                 title='Submit'
