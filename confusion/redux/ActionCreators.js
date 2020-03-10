@@ -186,6 +186,7 @@ export const postComment = (dishId, rating, author, comment) => (dispatch) => {
       })
     .then(response => response.json())
     .then(response =>
+      //console.log(response)
       setTimeout(() => {
         dispatch(addComment(response));
       }, 2000)

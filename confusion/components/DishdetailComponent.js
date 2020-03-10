@@ -63,7 +63,12 @@ function RenderComments(props) {
       return (
           <View key={index} style={{margin: 10}}>
               <Text style={{fontSize: 14}}>{item.comment}</Text>
-              <Text style={{fontSize: 12}}>{item.rating} Stars</Text>
+              <Rating
+                readonly
+                ratingCount={5}
+                imageSize={20}
+                startingValue={item.rating}
+              />
               <Text style={{fontSize: 12}}>{'-- ' + item.author + ', ' + item.date} </Text>
           </View>
       );
@@ -93,15 +98,13 @@ class DishDetail extends Component {
       comment: ''
     }
 
-    this.commentText = React.createRef();
-    this.authorText = React.createRef();
-
     this.toggleCommentModal = this.toggleCommentModal.bind(this);
     this.ratingCompleted = this.ratingCompleted.bind(this);
   }
 
   markFavorite(dishId) {
-      this.props.postFavorite(dishId);
+    //console.log("DishID: " + dishId);
+    this.props.postFavorite(dishId);
   }
 
   toggleCommentModal() {
@@ -114,11 +117,16 @@ class DishDetail extends Component {
     });
   }
 
-  handleComment() {
+  handleComment(dishId) {
     // Close modal window
     this.toggleCommentModal();
 
-    console.log(JSON.stringify(this.state));
+    // Output for debugging
+    //console.log(JSON.stringify(this.state));
+    //console.log("DishID: " + dishId);
+
+    // Post to reducer
+    this.props.postComment(dishId, this.state.rating, this.state.author, this.state.comment);
   }
 
   static navigationOptions = {
@@ -176,7 +184,7 @@ class DishDetail extends Component {
                 }
               />
               <Button
-                onPress={() => { this.handleComment(); } }
+                onPress={() => { this.handleComment(dishId); } }
                 color='#512DA8'
                 raised
                 title='Submit'
