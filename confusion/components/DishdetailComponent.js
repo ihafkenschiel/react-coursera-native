@@ -164,7 +164,7 @@ class DishDetail extends Component {
                 onChangeText={(text) => this.setState({author: text})}
                 leftIcon={
                   <Icon
-                    name='user'
+                    name='user-o'
                     type='font-awesome'
                     size={24}
                     color='black'
@@ -178,7 +178,7 @@ class DishDetail extends Component {
                 onChangeText={(text) => this.setState({comment: text})}
                 leftIcon={
                   <Icon
-                    name='comments'
+                    name='comments-o'
                     type='font-awesome'
                     size={24}
                     color='black'
