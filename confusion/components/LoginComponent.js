@@ -131,6 +131,22 @@ class RegisterTab extends Component {
     }
   }
 
+  getImageFromCamera = async () => {
+    const cameraPermission = await Permissions.askAsync(Permissions.CAMERA);
+    const cameraRollPermission = await Permissions.askAsync(Permissions.CAMERA_ROLL);
+
+    if (cameraPermission.status === 'granted' && cameraRollPermission.status === 'granted') {
+      let capturedImage = await ImagePicker.launchCameraAsync({
+        allowsEditing: true,
+        aspect: [4,3]
+      });
+
+      if (!capturedImage.cancelled) {
+        this.setState({ imageUrl: capturedImage.uri });
+      }
+    }
+  }
+
   static navigationOptions = {
       title: 'Register',
       tabBarIcon: ({ tintColor }) => (
@@ -143,10 +159,39 @@ class RegisterTab extends Component {
       )
   }
 
+  handleRegister() {
+    console.log(JSON.stringify(this.state));
+    if (this.state.remember)
+        SecureStore.setItemAsync(
+          'userinfo',
+          JSON.stringify({
+            username: this.state.username,
+            password: this.state.password
+          })
+        )
+            .catch((error) => console.log('Could not save user info', error));
+    else
+        SecureStore.deleteItemAsync('userinfo')
+            .catch((error) => console.log('Could not delete user info', error));
+
+  }
+
   render() {
       return (
         <ScrollView>
           <View style={styles.container}>
+
+            <View style={styles.imageContainer}>
+              <Image
+                source={{ uri: this.state.imageUrl }}
+                loadingIndicatorSource={ require('./images/logo.png') }
+                style={styles.image}
+              />
+              <Button
+                title='Camera'
+                onPress={this.getImageFromCamera}
+              />
+            </View>
               <Input
                   placeholder="Username"
                   leftIcon={{ type: 'font-awesome', name: 'user-o' }}
@@ -227,6 +272,16 @@ const styles = StyleSheet.create({
     container: {
         justifyContent: 'center',
         margin: 10,
+    },
+    imageContainer: {
+      flex: 1,
+      flexDirection: 'row',
+      margin: 5
+    },
+    image: {
+      margin: 10,
+      width: 80,
+      height: 60
     },
     formInput: {
         margin: 5
