@@ -229,10 +229,12 @@ class RegisterTab extends Component {
               <Button
                 title='Camera'
                 onPress={this.getImageFromCamera}
+                style={{ margin: 10}}
               />
               <Button
                 title='Gallery'
                 onPress={this.getImageFromGallery}
+                style={{ margin: 10}}
               />
             </View>
               <Input
